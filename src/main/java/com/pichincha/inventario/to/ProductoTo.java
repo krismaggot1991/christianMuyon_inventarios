@@ -6,6 +6,8 @@ package com.pichincha.inventario.to;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.pichincha.inventario.entity.Producto;
+
 import lombok.Data;
 
 /**
@@ -34,5 +36,10 @@ public class ProductoTo {
 	@NotEmpty(message = "stock is required")
 	@NotNull(message = "stock is required")
 	private Integer stock;
+
+	public Producto getProducto() {
+		return Producto.builder().id(getId()).codigo(getCod()).nombre(getName()).precio(getPrice()).stock(getStock())
+				.build();
+	}
 
 }

@@ -3,6 +3,7 @@
  */
 package com.pichincha.inventario.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 public class StartApp {
 
 	private static final String URL_MOCK_PRODUCTOS_API = "https://mocki.io/v1/5ccfa24a-6b55-41b3-90ec-29b8a28f39c4";
+
+	@Autowired
+	private ProductoServicio productoServicio;
 
 	/**
 	 * Ejecuta acciones una vez iniciada la aplicacion
@@ -43,16 +47,10 @@ public class StartApp {
 	 */
 	private void inicializarProductos() {
 		RestTemplate restTemplate = new RestTemplate();
-
 		ResponseEntity<ProductoToList> response = restTemplate.getForEntity(URL_MOCK_PRODUCTOS_API,
 				ProductoToList.class);
 		ProductoToList productoToList = response.getBody();
-
-		System.out.println("productoToList.getProds().size(): " + productoToList.getProds().size());
-
-		productoToList.getProds().forEach(z -> {
-			System.out.println("z.getName(): " + z.getName());
-		});
+		productoToList.getProds().forEach(itemProducto -> productoServicio.guardarProducto(itemProducto.getProducto()));
 	}
 
 }
