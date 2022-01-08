@@ -8,7 +8,7 @@ Para ejecutar el proyecto.
 
 Clic derecho sobre InventarioApplication.java, ejecutar como java application.
 
-(/capturas/aplicacion.png)
+![Inicio Apicacion](/capturas/aplicacion.png)
 
 
 Servicios REST expuestos
@@ -19,4 +19,4 @@ Servicios REST expuestos
 URL: http://localhost:8080/inventario/api/producto/obtenerProductosCodigoNombre
 Metodo: GET
 
-(/capturas/obtenerProductos.png)
+![Rest obtener productos](/capturas/obtenerProductos.png)
