@@ -11,9 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.pichincha.inventario.to.ProductoCodigoNombreTo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
@@ -22,6 +26,7 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "PRODUCTO")
@@ -45,5 +50,10 @@ public class Producto implements Serializable {
 
 	@Column(name = "STOCK")
 	private Integer stock;
+
+	@Transient
+	public ProductoCodigoNombreTo obtenerCodigoNombre() {
+		return ProductoCodigoNombreTo.builder().codigo(getCodigo()).nombre(getNombre()).build();
+	}
 
 }
