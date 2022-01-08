@@ -3,10 +3,15 @@
  */
 package com.pichincha.inventario.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,17 +32,19 @@ public class StartApp {
 	@Autowired
 	private ProductoServicio productoServicio;
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	/**
 	 * Ejecuta acciones una vez iniciada la aplicacion
-	 * 
-	 * @author Christian Muyon Rivera
 	 * 
 	 * @return void
 	 */
 	@EventListener(ApplicationReadyEvent.class)
 	public void startApp() {
-		log.info("Programa arranca...");
-		inicializarProductos();
+		log.info("Arranca aplicacion...");
+		this.inicializarProductos();
+		this.inicializarTiendas();
 	}
 
 	/**
@@ -51,6 +58,54 @@ public class StartApp {
 				ProductoToList.class);
 		ProductoToList productoToList = response.getBody();
 		productoToList.getProds().forEach(itemProducto -> productoServicio.guardarProducto(itemProducto.getProducto()));
+	}
+
+	/**
+	 * Registr tiendas en base de datos
+	 * 
+	 * @return void
+	 * 
+	 */
+	private void inicializarTiendas() {
+		List<String> listaSql = obtenerListaSqlTienda();
+		listaSql.forEach(sql -> executeSql(sql));
+	}
+
+	/**
+	 * Obtiene lista de sentencias SQL para registro de tiendas
+	 * 
+	 * @return List<String>
+	 * 
+	 */
+	private List<String> obtenerListaSqlTienda() {
+		String sentenciaSql1 = "INSERT INTO TIENDA (CODIGO, NOMBRE) VALUES (1, 'Tienda 1')";
+		String sentenciaSql2 = "INSERT INTO TIENDA (CODIGO, NOMBRE) VALUES (2, 'Tienda 2')";
+		String sentenciaSql3 = "INSERT INTO TIENDA (CODIGO, NOMBRE) VALUES (3, 'Tienda 3')";
+		String sentenciaSql4 = "INSERT INTO TIENDA (CODIGO, NOMBRE) VALUES (4, 'Tienda 4')";
+
+		List<String> listaSql = new ArrayList<>();
+		listaSql.add(sentenciaSql1);
+		listaSql.add(sentenciaSql2);
+		listaSql.add(sentenciaSql3);
+		listaSql.add(sentenciaSql4);
+
+		return listaSql;
+	}
+
+	/**
+	 * Ejecuta sentencia SQL
+	 * 
+	 * @param sql Sentencia SQL
+	 * 
+	 * @return void
+	 * 
+	 */
+	private void executeSql(String sql) {
+		try {
+			jdbcTemplate.execute(sql);
+		} catch (DataAccessException e) {
+			log.error("Error: " + e.getMessage());
+		}
 	}
 
 }
