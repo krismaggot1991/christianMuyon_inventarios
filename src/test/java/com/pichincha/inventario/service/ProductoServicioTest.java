@@ -16,6 +16,10 @@ import com.pichincha.inventario.entity.Producto;
 import com.pichincha.inventario.repository.ProductoRepository;
 import com.pichincha.inventario.to.ProductoCodigoNombreTo;
 
+/**
+ * @author Christian Muyon
+ *
+ */
 @SpringBootTest
 class ProductoServicioTest {
 
