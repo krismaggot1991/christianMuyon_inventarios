@@ -36,6 +36,16 @@ public class TiendaServicio {
 	@Autowired
 	private TiendaRepository tiendaRepository;
 
+	/**
+	 * Asigna y guarda en base de datos n productos a una determinada Tienda,
+	 * devuelve como resultado detalle de productos asignados a tienda.
+	 * 
+	 * @param tiendaProductoTo Objeto TiendaProductoTo
+	 * 
+	 * @throws ServiceException
+	 * 
+	 * @return TiendaProductoTo
+	 */
 	public TiendaProductoDetalleTo asignarGuardarProductosATienda(TiendaProductoTo tiendaProductoTo)
 			throws ServiceException {
 		Optional<Tienda> tiendaOptional = tiendaRepository.findById(tiendaProductoTo.getCodigoTienda());
@@ -45,14 +55,14 @@ public class TiendaServicio {
 			for (Long idProducto : tiendaProductoTo.getListaIdProductos()) {
 				asignarGuardarProductoATienda(tiendaOptional.get(), idProducto);
 			}
-			return obtenerDetalleTiendaPorCodigo(tiendaOptional.get().getCodigo());
+			return obtenerDetalleTiendaPorCodigo(tiendaOptional.get());
 		} else {
 			throw new ServiceException("No se encontro tienda con codigo: " + tiendaProductoTo.getCodigoTienda());
 		}
 	}
 
 	/**
-	 * Asigna y guarda en base de datos producto a determinada Tienda
+	 * Asigna y guarda en base de datos un producto a una determinada Tienda
 	 * 
 	 * @param tienda     Objeto Tienda
 	 * @param idProducto Id de producto
@@ -73,17 +83,19 @@ public class TiendaServicio {
 		}
 	}
 
-	private TiendaProductoDetalleTo obtenerDetalleTiendaPorCodigo(Long codigoTienda) throws ServiceException {
-		Optional<Tienda> tiendaOptional = tiendaRepository.findById(codigoTienda);
-		if (tiendaOptional.isPresent()) {
-			List<TiendaProducto> listaTiendaProducto = tiendaProductoRepository.findByTienda(tiendaOptional.get());
-			List<ProductoIdNombreTo> productos = new ArrayList<>();
-			listaTiendaProducto
-					.forEach(itemTiendaProducto -> productos.add(itemTiendaProducto.getProducto().obtenerIdNombre()));
-			return new TiendaProductoDetalleTo(tiendaOptional.get().obtenerTiendaTo(), productos);
-		} else {
-			throw new ServiceException("No se encontro tienda con codigo: " + codigoTienda);
-		}
+	/**
+	 * Obtiene detalle de productos asignados a una determinada tienda
+	 * 
+	 * @param tienda Objeto Tienda
+	 * 
+	 * @return TiendaProductoDetalleTo
+	 */
+	private TiendaProductoDetalleTo obtenerDetalleTiendaPorCodigo(Tienda tienda) {
+		List<TiendaProducto> listaTiendaProducto = tiendaProductoRepository.findByTienda(tienda);
+		List<ProductoIdNombreTo> productos = new ArrayList<>();
+		listaTiendaProducto
+				.forEach(itemTiendaProducto -> productos.add(itemTiendaProducto.getProducto().obtenerIdNombre()));
+		return new TiendaProductoDetalleTo(tienda.obtenerNombreCodigoTienda(), productos);
 	}
 
 }

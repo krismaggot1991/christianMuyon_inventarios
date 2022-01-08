@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.pichincha.inventario.entity.Tienda;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class TiendaProductoDetalleTo {
 
 	@NotNull
-	public TiendaTo tiendaTo;
+	public Tienda tienda;
 
 	@NotNull
 	public List<ProductoIdNombreTo> productos;

@@ -13,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.pichincha.inventario.to.TiendaTo;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,8 +41,8 @@ public class Tienda implements Serializable {
 	private String nombre;
 
 	@Transient
-	public TiendaTo obtenerTiendaTo() {
-		return TiendaTo.builder().codigo(getCodigo()).nombre(getNombre()).build();
+	public Tienda obtenerNombreCodigoTienda() {
+		return Tienda.builder().codigo(getCodigo()).nombre(getNombre()).build();
 	}
 
 }
