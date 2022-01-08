@@ -17,6 +17,6 @@ Servicios REST expuestos
 1) Obtener codigo y nombre de todos los productos disponibles
 
 URL: http://localhost:8080/inventario/api/producto/obtenerProductosCodigoNombre
-Metodo: GET
+<br />Metodo: GET
 
 ![Rest obtener productos](/capturas/obtenerProductos.png)
