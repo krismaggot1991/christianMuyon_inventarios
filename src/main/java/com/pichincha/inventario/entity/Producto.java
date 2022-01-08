@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.pichincha.inventario.to.ProductoCodigoNombreTo;
+import com.pichincha.inventario.to.ProductoIdNombreTo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,6 +55,11 @@ public class Producto implements Serializable {
 	@Transient
 	public ProductoCodigoNombreTo obtenerCodigoNombre() {
 		return ProductoCodigoNombreTo.builder().codigo(getCodigo()).nombre(getNombre()).build();
+	}
+
+	@Transient
+	public ProductoIdNombreTo obtenerIdNombre() {
+		return ProductoIdNombreTo.builder().id(getId()).nombre(getNombre()).build();
 	}
 
 }
