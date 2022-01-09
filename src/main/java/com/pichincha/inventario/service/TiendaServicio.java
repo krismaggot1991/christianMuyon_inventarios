@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.pichincha.inventario.entity.Producto;
 import com.pichincha.inventario.entity.Tienda;
 import com.pichincha.inventario.entity.TiendaProducto;
-import com.pichincha.inventario.exception.ServiceException;
+import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.repository.TiendaProductoRepository;
 import com.pichincha.inventario.repository.TiendaRepository;
 import com.pichincha.inventario.to.ProductoIdNombreTo;
@@ -42,12 +42,12 @@ public class TiendaServicio {
 	 * 
 	 * @param tiendaProductoTo Objeto TiendaProductoTo
 	 * 
-	 * @throws ServiceException
+	 * @throws InventarioException
 	 * 
 	 * @return TiendaProductoTo
 	 */
 	public TiendaProductoDetalleTo asignarGuardarProductosATienda(TiendaProductoTo tiendaProductoTo)
-			throws ServiceException {
+			throws InventarioException {
 		Optional<Tienda> tiendaOptional = tiendaRepository.findById(tiendaProductoTo.getCodigoTienda());
 		if (tiendaOptional.isPresent()) {
 			List<TiendaProducto> listaTiendaProducto = tiendaProductoRepository.findByTienda(tiendaOptional.get());
@@ -57,7 +57,7 @@ public class TiendaServicio {
 			}
 			return obtenerDetalleTiendaPorCodigo(tiendaOptional.get());
 		} else {
-			throw new ServiceException("No se encontro tienda con codigo: " + tiendaProductoTo.getCodigoTienda());
+			throw new InventarioException("No se encontro tienda con codigo: " + tiendaProductoTo.getCodigoTienda());
 		}
 	}
 
@@ -67,11 +67,11 @@ public class TiendaServicio {
 	 * @param tienda     Objeto Tienda
 	 * @param idProducto Id de producto
 	 * 
-	 * @throws ServiceException
+	 * @throws InventarioException
 	 * 
 	 * @return TiendaProducto
 	 */
-	public TiendaProducto asignarGuardarProductoATienda(Tienda tienda, Long idProducto) throws ServiceException {
+	public TiendaProducto asignarGuardarProductoATienda(Tienda tienda, Long idProducto) throws InventarioException {
 		Producto producto = productoServicio.obtenerProductoPorId(idProducto);
 		TiendaProducto tiendaProducto = new TiendaProducto();
 		tiendaProducto.setProducto(producto);
@@ -84,16 +84,16 @@ public class TiendaServicio {
 	 * 
 	 * @param codigoTienda Codigo de tienda
 	 * 
-	 * @throws ServiceException
+	 * @throws InventarioException
 	 * 
 	 * @return Tienda
 	 */
-	public Tienda obtenerTiendaPorCodigo(Long codigoTienda) throws ServiceException {
+	public Tienda obtenerTiendaPorCodigo(Long codigoTienda) throws InventarioException {
 		Optional<Tienda> optionalTienda = tiendaRepository.findById(codigoTienda);
 		if (optionalTienda.isPresent()) {
 			return optionalTienda.get();
 		} else {
-			throw new ServiceException("No existe tienda con codigo: " + codigoTienda);
+			throw new InventarioException("No existe tienda con codigo: " + codigoTienda);
 		}
 	}
 

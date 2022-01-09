@@ -22,7 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.pichincha.inventario.entity.Producto;
 import com.pichincha.inventario.entity.Tienda;
 import com.pichincha.inventario.entity.TiendaProducto;
-import com.pichincha.inventario.exception.ServiceException;
+import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.repository.TiendaProductoRepository;
 import com.pichincha.inventario.repository.TiendaRepository;
 import com.pichincha.inventario.to.TiendaProductoDetalleTo;
@@ -53,7 +53,7 @@ class TiendaServicioTest {
 	}
 
 	@Test
-	final void deberiaAsignarGuardarProductosATienda() throws ServiceException {
+	final void deberiaAsignarGuardarProductosATienda() throws InventarioException {
 		when(tiendaRepository.findById(1L)).thenReturn(Optional.of(obtenerTienda()));
 		when(tiendaProductoRepository.findByTienda(any())).thenReturn(obtenerListaTiendaProducto());
 		when(tiendaProductoRepository.save(any())).thenReturn(obtenerTiendaProducto());
@@ -64,7 +64,7 @@ class TiendaServicioTest {
 	}
 
 	@Test
-	final void deberiaAsignarGuardarProductoATienda() throws ServiceException {
+	final void deberiaAsignarGuardarProductoATienda() throws InventarioException {
 		when(productoServicio.obtenerProductoPorId(9L)).thenReturn(obtenerProducto());
 		when(tiendaProductoRepository.save(any())).thenReturn(obtenerTiendaProducto());
 		TiendaProducto tiendaProducto = tiendaServicio.asignarGuardarProductoATienda(obtenerTienda(), 9L);

@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.pichincha.inventario.entity.Cliente;
-import com.pichincha.inventario.exception.ServiceException;
+import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.repository.ClienteRepository;
 
 @SpringBootTest
@@ -47,14 +47,14 @@ class ClienteServicioTest {
 	}
 
 	@Test
-	final void deberiaGuardarCliente() throws ServiceException {
+	final void deberiaGuardarCliente() throws InventarioException {
 		when(clienteRepository.save(any())).thenReturn(obtenerCliente1());
 		Cliente cliente = clienteServicio.guardarCliente(obtenerCliente1());
 		assertNotNull("Objecto no nulo.", cliente);
 	}
 
 	@Test
-	final void deberiaObtenerPorIdentificacion() throws ServiceException {
+	final void deberiaObtenerPorIdentificacion() throws InventarioException {
 		List<Cliente> listaClientes = new ArrayList<>();
 		this.obtenerIterableClientes().forEach(listaClientes::add);
 		when(clienteRepository.findByIdentificacion(anyString())).thenReturn(listaClientes);
@@ -63,7 +63,7 @@ class ClienteServicioTest {
 	}
 
 	@Test
-	final void deberiaEliminarCliente() throws ServiceException {
+	final void deberiaEliminarCliente() throws InventarioException {
 		getContador();
 		List<Cliente> listaClientes = new ArrayList<>();
 		this.obtenerIterableClientes().forEach(listaClientes::add);
@@ -74,7 +74,7 @@ class ClienteServicioTest {
 	}
 
 	@Test
-	final void deberiaActualizarCliente() throws ServiceException {
+	final void deberiaActualizarCliente() throws InventarioException {
 		List<Cliente> listaClientes = new ArrayList<>();
 		this.obtenerIterableClientes().forEach(listaClientes::add);
 		when(clienteRepository.findByIdentificacion(anyString())).thenReturn(listaClientes);
@@ -84,8 +84,8 @@ class ClienteServicioTest {
 		assertSame("Felipe", clienteActualizado.getNombre(), "El nombre del cliente se actualiza correctamente");
 	}
 
-	@org.junit.Test(expected = ServiceException.class)
-	final void deberiaLanzarExepcionObtenerPorIdentificacionNoValida() throws ServiceException {
+	@org.junit.Test(expected = InventarioException.class)
+	final void deberiaLanzarExepcionObtenerPorIdentificacionNoValida() throws InventarioException {
 		List<Cliente> listaClientes = new ArrayList<>();
 		this.obtenerIterableClientes().forEach(listaClientes::add);
 		when(clienteRepository.findByIdentificacion(anyString())).thenReturn(listaClientes);

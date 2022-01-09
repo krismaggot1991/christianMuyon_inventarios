@@ -7,11 +7,11 @@ package com.pichincha.inventario.exception;
  * @author Christian Muyon
  *
  */
-public class ServiceException extends Exception {
+public class InventarioException extends Exception {
 
 	private static final long serialVersionUID = 3695849740153791862L;
 
-	public ServiceException(String message) {
+	public InventarioException(String message) {
 		super(message);
 	}
 

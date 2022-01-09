@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pichincha.inventario.entity.Producto;
-import com.pichincha.inventario.exception.ServiceException;
+import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.repository.ProductoRepository;
 import com.pichincha.inventario.to.ProductoCodigoNombreTo;
 
@@ -54,14 +54,14 @@ public class ProductoServicio {
 	 * 
 	 * @return Producto
 	 * 
-	 * @throws ServiceException
+	 * @throws InventarioException
 	 */
-	public Producto obtenerProductoPorId(Long idProducto) throws ServiceException {
+	public Producto obtenerProductoPorId(Long idProducto) throws InventarioException {
 		Optional<Producto> optionalProducto = productoRepository.findById(idProducto);
 		if (optionalProducto.isPresent()) {
 			return optionalProducto.get();
 		} else {
-			throw new ServiceException("No se encontro producto con id: " + idProducto);
+			throw new InventarioException("No se encontro producto con id: " + idProducto);
 		}
 	}
 
@@ -72,17 +72,17 @@ public class ProductoServicio {
 	 * @param idProducto Id de producto
 	 * @param stock      Numero de stock a actualizar
 	 * 
-	 * @throws ServiceException
+	 * @throws InventarioException
 	 * 
 	 * @return Producto
 	 */
-	public Producto actualizarStockProducto(Long idProducto, int stock) throws ServiceException {
+	public Producto actualizarStockProducto(Long idProducto, int stock) throws InventarioException {
 		Producto producto = this.obtenerProductoPorId(idProducto);
 		if (stock >= 1) {
 			producto.setStock(stock);
 			return this.guardarProducto(producto);
 		} else {
-			throw new ServiceException("El stock no puede ser menor o igual a cero.");
+			throw new InventarioException("El stock no puede ser menor o igual a cero.");
 		}
 
 	}

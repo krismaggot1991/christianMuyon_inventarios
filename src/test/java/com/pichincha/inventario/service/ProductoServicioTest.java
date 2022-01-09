@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.pichincha.inventario.entity.Producto;
-import com.pichincha.inventario.exception.ServiceException;
+import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.repository.ProductoRepository;
 import com.pichincha.inventario.to.ProductoCodigoNombreTo;
 
@@ -46,22 +46,22 @@ class ProductoServicioTest {
 	}
 
 	@Test
-	final void deberiaActualizarStockProducto() throws ServiceException {
+	final void deberiaActualizarStockProducto() throws InventarioException {
 		when(productoRepository.findById(9L)).thenReturn(obtenerProductoOptional());
 		when(productoServicio.guardarProducto(obtenerProducto1())).thenReturn(obtenerProducto1());
 		Producto producto = productoServicio.actualizarStockProducto(9L, 3);
 		assertSame(3, producto.getStock(), "El stock actualizado es 3.");
 	}
 
-	@org.junit.Test(expected = ServiceException.class)
-	void deberiaLanzarExepcionCuandoActualizaStock0() throws ServiceException {
+	@org.junit.Test(expected = InventarioException.class)
+	void deberiaLanzarExepcionCuandoActualizaStock0() throws InventarioException {
 		when(productoRepository.findById(9L)).thenReturn(obtenerProductoOptional());
 		when(productoServicio.guardarProducto(obtenerProducto1())).thenReturn(obtenerProducto1());
 		productoServicio.actualizarStockProducto(9L, 0);
 	}
 
-	@org.junit.Test(expected = ServiceException.class)
-	void deberiaLanzarExepcionCuandoActualizaStockMenorCero() throws ServiceException {
+	@org.junit.Test(expected = InventarioException.class)
+	void deberiaLanzarExepcionCuandoActualizaStockMenorCero() throws InventarioException {
 		when(productoRepository.findById(9L)).thenReturn(obtenerProductoOptional());
 		when(productoServicio.guardarProducto(obtenerProducto1())).thenReturn(obtenerProducto1());
 		productoServicio.actualizarStockProducto(9L, -1);

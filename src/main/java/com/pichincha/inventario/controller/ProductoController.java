@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pichincha.inventario.exception.ServiceException;
+import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.service.ProductoServicio;
 import com.pichincha.inventario.to.ProductoCodigoNombreTo;
 
@@ -37,7 +37,7 @@ public class ProductoController {
 		try {
 			return new ResponseEntity<>(productoServicio.actualizarStockProducto(idProducto, stock),
 					HttpStatus.ACCEPTED);
-		} catch (ServiceException e) {
+		} catch (InventarioException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

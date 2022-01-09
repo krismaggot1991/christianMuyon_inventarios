@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pichincha.inventario.entity.Cliente;
-import com.pichincha.inventario.exception.ServiceException;
+import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.service.ClienteServicio;
 
 /**
@@ -40,7 +40,7 @@ public class ClienteController {
 		try {
 			Cliente clienteGuardado = clienteServicio.guardarCliente(cliente);
 			return new ResponseEntity<>(clienteGuardado, HttpStatus.CREATED);
-		} catch (ServiceException e) {
+		} catch (InventarioException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -50,7 +50,7 @@ public class ClienteController {
 		try {
 			Cliente cliente = clienteServicio.obtenerPorIdentificacion(identificacion);
 			return new ResponseEntity<>(cliente, HttpStatus.OK);
-		} catch (ServiceException e) {
+		} catch (InventarioException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -60,7 +60,7 @@ public class ClienteController {
 		try {
 			clienteServicio.eliminarCliente(identificacion);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (ServiceException e) {
+		} catch (InventarioException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -70,7 +70,7 @@ public class ClienteController {
 		try {
 			Cliente clienteActualizado = clienteServicio.actualizarCliente(cliente);
 			return new ResponseEntity<>(clienteActualizado, HttpStatus.ACCEPTED);
-		} catch (ServiceException e) {
+		} catch (InventarioException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
