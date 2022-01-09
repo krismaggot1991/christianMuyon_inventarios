@@ -57,7 +57,7 @@ class TiendaServicioTest {
 		when(tiendaRepository.findById(1L)).thenReturn(Optional.of(obtenerTienda()));
 		when(tiendaProductoRepository.findByTienda(any())).thenReturn(obtenerListaTiendaProducto());
 		when(tiendaProductoRepository.save(any())).thenReturn(obtenerTiendaProducto());
-		when(productoServicio.obtenerProductoPorId(anyLong())).thenReturn(Optional.of(obtenerProducto2()));
+		when(productoServicio.obtenerProductoPorId(anyLong())).thenReturn(obtenerProducto2());
 		TiendaProductoDetalleTo tiendaProductoDetalleTo = tiendaServicio
 				.asignarGuardarProductosATienda(obtenerTiendaProductoTo());
 		assertNotNull(tiendaProductoDetalleTo, "Objeto no es nulo");
@@ -65,7 +65,7 @@ class TiendaServicioTest {
 
 	@Test
 	final void deberiaAsignarGuardarProductoATienda() throws ServiceException {
-		when(productoServicio.obtenerProductoPorId(9L)).thenReturn(Optional.of(obtenerProducto()));
+		when(productoServicio.obtenerProductoPorId(9L)).thenReturn(obtenerProducto());
 		when(tiendaProductoRepository.save(any())).thenReturn(obtenerTiendaProducto());
 		TiendaProducto tiendaProducto = tiendaServicio.asignarGuardarProductoATienda(obtenerTienda(), 9L);
 		assertNotNull(tiendaProducto, "Objeto no es nulo");

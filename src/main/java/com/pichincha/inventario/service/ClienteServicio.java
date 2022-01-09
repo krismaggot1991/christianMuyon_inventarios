@@ -4,6 +4,7 @@
 package com.pichincha.inventario.service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,6 +92,24 @@ public class ClienteServicio {
 		this.guardarCliente(clienteObtenido);
 		cliente.setCodigo(clienteObtenido.getCodigo());
 		return cliente;
+	}
+
+	/**
+	 * Obtiene cliente por codigo de cliente
+	 * 
+	 * @param codigoCliente Codigo de cliente
+	 * 
+	 * @throws ServiceException
+	 * 
+	 * @return Cliente
+	 */
+	public Cliente obtenerPorCodigo(Long codigoCliente) throws ServiceException {
+		Optional<Cliente> optionalCliente = clienteRepository.findById(codigoCliente);
+		if (optionalCliente.isPresent()) {
+			return optionalCliente.get();
+		} else {
+			throw new ServiceException("No existe cliente con codigo: " + codigoCliente);
+		}
 	}
 
 	/**

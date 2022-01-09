@@ -52,10 +52,17 @@ public class ProductoServicio {
 	/**
 	 * Obtiene producto por id de producto
 	 * 
-	 * @return Optional<Producto>
+	 * @return Producto
+	 * 
+	 * @throws ServiceException
 	 */
-	public Optional<Producto> obtenerProductoPorId(Long idProducto) {
-		return productoRepository.findById(idProducto);
+	public Producto obtenerProductoPorId(Long idProducto) throws ServiceException {
+		Optional<Producto> optionalProducto = productoRepository.findById(idProducto);
+		if (optionalProducto.isPresent()) {
+			return optionalProducto.get();
+		} else {
+			throw new ServiceException("No se encontro producto con id: " + idProducto);
+		}
 	}
 
 	/**
@@ -70,17 +77,14 @@ public class ProductoServicio {
 	 * @return Producto
 	 */
 	public Producto actualizarStockProducto(Long idProducto, int stock) throws ServiceException {
-		Optional<Producto> productoOptional = this.obtenerProductoPorId(idProducto);
-		if (productoOptional.isPresent()) {
-			if (stock >= 1) {
-				productoOptional.get().setStock(stock);
-				return this.guardarProducto(productoOptional.get());
-			} else {
-				throw new ServiceException("El stock no puede ser menor o igual a cero.");
-			}
+		Producto producto = this.obtenerProductoPorId(idProducto);
+		if (stock >= 1) {
+			producto.setStock(stock);
+			return this.guardarProducto(producto);
 		} else {
-			throw new ServiceException("No se encontro producto con id: " + idProducto);
+			throw new ServiceException("El stock no puede ser menor o igual a cero.");
 		}
+
 	}
 
 }

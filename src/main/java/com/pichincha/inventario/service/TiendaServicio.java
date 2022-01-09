@@ -72,14 +72,28 @@ public class TiendaServicio {
 	 * @return TiendaProducto
 	 */
 	public TiendaProducto asignarGuardarProductoATienda(Tienda tienda, Long idProducto) throws ServiceException {
-		Optional<Producto> producto = productoServicio.obtenerProductoPorId(idProducto);
-		if (producto.isPresent()) {
-			TiendaProducto tiendaProducto = new TiendaProducto();
-			tiendaProducto.setProducto(producto.get());
-			tiendaProducto.setTienda(tienda);
-			return tiendaProductoRepository.save(tiendaProducto);
+		Producto producto = productoServicio.obtenerProductoPorId(idProducto);
+		TiendaProducto tiendaProducto = new TiendaProducto();
+		tiendaProducto.setProducto(producto);
+		tiendaProducto.setTienda(tienda);
+		return tiendaProductoRepository.save(tiendaProducto);
+	}
+
+	/**
+	 * Obtiene tienda por codigo de tienda
+	 * 
+	 * @param codigoTienda Codigo de tienda
+	 * 
+	 * @throws ServiceException
+	 * 
+	 * @return Tienda
+	 */
+	public Tienda obtenerTiendaPorCodigo(Long codigoTienda) throws ServiceException {
+		Optional<Tienda> optionalTienda = tiendaRepository.findById(codigoTienda);
+		if (optionalTienda.isPresent()) {
+			return optionalTienda.get();
 		} else {
-			throw new ServiceException("No se encontro producto con id: " + idProducto);
+			throw new ServiceException("No existe tienda con codigo: " + codigoTienda);
 		}
 	}
 
