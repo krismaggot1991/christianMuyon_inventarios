@@ -47,3 +47,22 @@ URL: http://localhost:8080/inventario/api/producto/actualizarStock/idProducto/st
 <br />**Metodo:** PUT
 
 ![Rest actualizar stock producto](/capturas/actualizarStock.png)
+
+3) Asignar productos a tienda
+
+URL: http://localhost:8080/inventario/api/tienda/asignarProductosATienda
+<br />**Metodo:** POST
+<br />**Body (example):**
+<br />
+```
+{
+    "codigoTienda": "1",
+    "listaIdProductos": [
+        "1",
+        "3",
+        "5"
+    ]
+}
+````
+
+![Rest asignar productos tienda](/capturas/asignarProductosTienda.png)
