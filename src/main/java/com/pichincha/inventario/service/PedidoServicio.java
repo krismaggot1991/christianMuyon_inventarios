@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pichincha.inventario.entity.Pedido;
 import com.pichincha.inventario.entity.PedidoDetalle;
@@ -40,22 +41,21 @@ public class PedidoServicio {
 	@Autowired
 	private PedidoDetalleRepository pedidoDetalleRepository;
 
+	@Transactional
 	public void realizarPedido(PedidoTo pedidoTo) throws InventarioException {
-
 		Pedido pedido = new Pedido();
 		pedido.setCliente(clienteServicio.obtenerPorCodigo(pedidoTo.getCodigoCliente()));
 		pedido.setFecha(new Date());
-
+		pedido = pedidoRepository.save(pedido);
 		for (PedidoDetalleTo pedidoDetalleTo : pedidoTo.getDetalle()) {
 			this.guardarDetalle(pedido, pedidoDetalleTo);
 		}
-
 	}
 
 	private void guardarDetalle(Pedido pedido, PedidoDetalleTo pedidoDetalleTo) throws InventarioException {
 		Tienda tienda = tiendaServicio.obtenerTiendaPorCodigo(pedidoDetalleTo.getCodigoTienda());
 		Producto producto = productoServicio.obtenerProductoPorId(pedidoDetalleTo.getIdProducto());
-		pedido = pedidoRepository.save(pedido);
+
 		PedidoDetalle pedidoDetalle = new PedidoDetalle(pedido, tienda, producto, pedidoDetalleTo.getCantidad());
 		pedidoDetalleRepository.save(pedidoDetalle);
 	}
