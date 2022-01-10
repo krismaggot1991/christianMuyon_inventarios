@@ -194,7 +194,5 @@ Servicios REST expuestos (Reportes)
 
 ![Rest archivo csv](/capturas/csv.png)
 
-<br />**Coleccion de servicios REST para postman se encuentran en la ruta:** \recursos\Inventario_API.postman_collection.json
-
 <br />
 <br />**Aplicacion desarrollada por:** Christian Muyon Rivera. 
