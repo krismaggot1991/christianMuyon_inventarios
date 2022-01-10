@@ -156,6 +156,8 @@ Servicios REST expuestos (Pedidos)
 
 ![Rest realizar pedido](/capturas/realizarPedido.png)
 
+![Rest pedido base](/capturas/pedidoBase.png)
+
 Servicios REST expuestos (Reportes)
 ==========================
 
