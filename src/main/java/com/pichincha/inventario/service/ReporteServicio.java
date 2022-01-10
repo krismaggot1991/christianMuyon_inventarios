@@ -27,6 +27,8 @@ import com.pichincha.inventario.repository.ReporteTransaccionesClienteRepository
 @Service
 public class ReporteServicio {
 
+	final static String FORMATO_FECHA = "yyyyMMdd";
+
 	@Autowired
 	private ReporteNumeroTransaccionesRepository reporteNumeroTransaccionesRepository;
 
@@ -38,8 +40,6 @@ public class ReporteServicio {
 
 	@Autowired
 	private ClienteServicio clienteServicio;
-
-	final static String FORMATO_FECHA = "yyyyMMdd";
 
 	/**
 	 * Obtiene reporte de numero de transacciones de pedidos de productos realizados
@@ -80,8 +80,15 @@ public class ReporteServicio {
 		this.esFechaValida(fechaInicio);
 		this.esFechaValida(fechaFin);
 		clienteServicio.obtenerPorCodigo(codigoCliente);
-		return reporteTransaccionesClienteRepository.obtenerReporteTransaccionesCliente(codigoCliente, fechaInicio,
-				fechaFin);
+		List<ReporteTransaccionesClienteDTO> listaReporteTransaccionesClienteDTO = reporteTransaccionesClienteRepository
+				.obtenerReporteTransaccionesCliente(codigoCliente, fechaInicio, fechaFin);
+		if (!listaReporteTransaccionesClienteDTO.isEmpty()) {
+			return listaReporteTransaccionesClienteDTO;
+		} else {
+			throw new InventarioException(
+					"No existe informacion de transacciones realizadas por el cliente con codigo: " + codigoCliente
+							+ " entre las fechas " + fechaInicio + " y " + fechaFin + ".");
+		}
 	}
 
 	/**
