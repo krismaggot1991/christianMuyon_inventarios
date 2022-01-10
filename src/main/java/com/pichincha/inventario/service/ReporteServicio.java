@@ -3,6 +3,9 @@
  */
 package com.pichincha.inventario.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,8 @@ public class ReporteServicio {
 
 	@Autowired
 	private ClienteServicio clienteServicio;
+
+	final static String FORMATO_FECHA = "yyyyMMdd";
 
 	/**
 	 * Obtiene reporte de numero de transacciones de pedidos de productos realizados
@@ -72,8 +77,31 @@ public class ReporteServicio {
 	@Transactional(readOnly = true)
 	public List<ReporteTransaccionesClienteDTO> obtenerReporteTransaccionesCliente(Long codigoCliente,
 			String fechaInicio, String fechaFin) throws InventarioException {
+		this.esFechaValida(fechaInicio);
+		this.esFechaValida(fechaFin);
 		clienteServicio.obtenerPorCodigo(codigoCliente);
 		return reporteTransaccionesClienteRepository.obtenerReporteTransaccionesCliente(codigoCliente, fechaInicio,
 				fechaFin);
+	}
+
+	/**
+	 * Valida que fecha String tenga el formato correcto. Formato esperado:
+	 * yyyyMMdd.
+	 * 
+	 * @param fecha Fecha String
+	 * 
+	 * @return List<ReporteTransaccionesClienteDTO> Lista de objetos
+	 *         ReporteTransaccionesClienteDTO
+	 */
+	public boolean esFechaValida(String fecha) throws InventarioException {
+		try {
+			DateFormat df = new SimpleDateFormat(FORMATO_FECHA);
+			df.setLenient(false);
+			df.parse(fecha);
+			return true;
+		} catch (ParseException e) {
+			throw new InventarioException("La fecha ingresada: " + fecha
+					+ " no se encuentra en el formato de fecha correcto. El formato esperado es yyyyMMdd.");
+		}
 	}
 }
