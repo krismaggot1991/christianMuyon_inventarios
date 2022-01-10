@@ -126,3 +126,32 @@ Servicios REST expuestos (Clientes)
 ````
 
 ![Rest actuallizar cliente](/capturas/actualizarCliente.png)
+
+Servicios REST expuestos (Pedidos)
+==========================
+
+**1) Realizar pedido**
+
+**URL:** http://localhost:8080/inventario/api/pedido/realizarPedido
+<br />**Metodo:** POST
+<br />**Body (example):**
+<br />
+```
+{
+    "codigoCliente": "1",
+    "detalle": [
+        {
+            "codigoTienda": "1",
+            "idProducto": "2",
+            "cantidad": "8"
+        },
+        {
+            "codigoTienda": "4",
+            "idProducto": "5",
+            "cantidad": "2"
+        }
+    ]
+}
+````
+
+![Rest realizar pedido](/capturas/realizarPedido.png)
