@@ -28,11 +28,10 @@ public class PedidoDetalle implements Serializable {
 
 	private static final long serialVersionUID = 5784927617391752394L;
 
-	public PedidoDetalle(Pedido pedido, Tienda tienda, Producto producto, Integer cantidad) {
+	public PedidoDetalle(Pedido pedido, TiendaProducto tiendaProducto, Integer cantidad) {
 		super();
 		this.pedido = pedido;
-		this.tienda = tienda;
-		this.producto = producto;
+		this.tiendaProducto = tiendaProducto;
 		this.cantidad = cantidad;
 	}
 
@@ -46,12 +45,8 @@ public class PedidoDetalle implements Serializable {
 	private Pedido pedido;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CODIGO_TIENDA")
-	private Tienda tienda;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_PRODUCTO")
-	private Producto producto;
+	@JoinColumn(name = "CODIGO_TIENDA_PRODUCTO")
+	private TiendaProducto tiendaProducto;
 
 	@Column(name = "CANTIDAD")
 	private Integer cantidad;

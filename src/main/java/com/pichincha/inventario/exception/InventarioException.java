@@ -4,7 +4,7 @@
 package com.pichincha.inventario.exception;
 
 /**
- * @author Christian Muyon
+ * @author Christian Muyon RuntimeException-Exception
  *
  */
 public class InventarioException extends RuntimeException {

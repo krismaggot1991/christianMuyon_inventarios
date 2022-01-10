@@ -48,17 +48,13 @@ public class TiendaServicio {
 	 */
 	public TiendaProductoDetalleTo asignarGuardarProductosATienda(TiendaProductoTo tiendaProductoTo)
 			throws InventarioException {
-		Optional<Tienda> tiendaOptional = tiendaRepository.findById(tiendaProductoTo.getCodigoTienda());
-		if (tiendaOptional.isPresent()) {
-			List<TiendaProducto> listaTiendaProducto = tiendaProductoRepository.findByTienda(tiendaOptional.get());
-			listaTiendaProducto.forEach(itemTiendaProducto -> tiendaProductoRepository.delete(itemTiendaProducto));
-			for (Long idProducto : tiendaProductoTo.getListaIdProductos()) {
-				asignarGuardarProductoATienda(tiendaOptional.get(), idProducto);
-			}
-			return obtenerDetalleTiendaPorCodigo(tiendaOptional.get());
-		} else {
-			throw new InventarioException("No se encontro tienda con codigo: " + tiendaProductoTo.getCodigoTienda());
+		Tienda tienda = this.obtenerTiendaPorCodigo(tiendaProductoTo.getCodigoTienda());
+		List<TiendaProducto> listaTiendaProducto = tiendaProductoRepository.findByTienda(tienda);
+		listaTiendaProducto.forEach(itemTiendaProducto -> tiendaProductoRepository.delete(itemTiendaProducto));
+		for (Long idProducto : tiendaProductoTo.getListaIdProductos()) {
+			asignarGuardarProductoATienda(tienda, idProducto);
 		}
+		return obtenerDetalleTiendaPorCodigo(tienda);
 	}
 
 	/**

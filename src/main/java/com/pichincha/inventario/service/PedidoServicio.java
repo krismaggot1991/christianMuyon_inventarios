@@ -13,6 +13,7 @@ import com.pichincha.inventario.entity.Pedido;
 import com.pichincha.inventario.entity.PedidoDetalle;
 import com.pichincha.inventario.entity.Producto;
 import com.pichincha.inventario.entity.Tienda;
+import com.pichincha.inventario.entity.TiendaProducto;
 import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.repository.PedidoDetalleRepository;
 import com.pichincha.inventario.repository.PedidoRepository;
@@ -43,6 +44,9 @@ public class PedidoServicio {
 
 	@Autowired
 	private SolitudStockServicio solitudStockServicio;
+
+	@Autowired
+	private TiendaProductoServicio tiendaProductoServicio;
 
 	/**
 	 * Guarda pedido y su detall
@@ -78,6 +82,8 @@ public class PedidoServicio {
 	private void guardarDetalle(Pedido pedido, PedidoDetalleTo pedidoDetalleTo) throws InventarioException {
 		Tienda tienda = tiendaServicio.obtenerTiendaPorCodigo(pedidoDetalleTo.getCodigoTienda());
 		Producto producto = productoServicio.obtenerProductoPorId(pedidoDetalleTo.getIdProducto());
+		TiendaProducto tiendaProducto = tiendaProductoServicio.obtenerPorTiendaYProducto(tienda, producto);
+
 		int stock = producto.getStock();
 		stock = stock - pedidoDetalleTo.getCantidad();
 
@@ -92,10 +98,10 @@ public class PedidoServicio {
 			}
 		} else {
 			producto.setStock(stock);
-			producto = productoServicio.guardarProducto(producto);
+			productoServicio.guardarProducto(producto);
 		}
 
-		PedidoDetalle pedidoDetalle = new PedidoDetalle(pedido, tienda, producto, pedidoDetalleTo.getCantidad());
+		PedidoDetalle pedidoDetalle = new PedidoDetalle(pedido, tiendaProducto, pedidoDetalleTo.getCantidad());
 		pedidoDetalleRepository.save(pedidoDetalle);
 	}
 
