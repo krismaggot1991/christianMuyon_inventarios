@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pichincha.inventario.entity.dto.ReporteMontoVendidoTiendaDTO;
 import com.pichincha.inventario.entity.dto.ReporteNumeroTransaccionesDTO;
 import com.pichincha.inventario.service.ReporteServicio;
 
@@ -29,6 +30,12 @@ public class ReporteController {
 	@GetMapping("/obtenerReporteNumeroTransacciones")
 	public ResponseEntity<?> obtenerReporteNumeroTransacciones() {
 		List<ReporteNumeroTransaccionesDTO> resultado = reporteServicio.obtenerReporteNumeroTransacciones();
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
+	}
+
+	@GetMapping("/obtenerReporteMontoVendidoTienda")
+	public ResponseEntity<?> obtenerReporteMontoVendidoTienda() {
+		List<ReporteMontoVendidoTiendaDTO> resultado = reporteServicio.obtenerReporteMontoVendidoTienda();
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 
