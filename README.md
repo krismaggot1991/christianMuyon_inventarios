@@ -174,3 +174,12 @@ Servicios REST expuestos (Reportes)
 <br />**Metodo:** GET
 
 ![Rest reporte vendido](/capturas/reporteVendido.png)
+
+**3) Generar reporte CSV de transacciones de cliente**
+
+**URL:** http://localhost:8080/inventario/api/reporte/obtenerReporteTransaccionesCliente/{codigo_cliente}/{fecha_inicio_anio_mes_dia}/{fecha_fin_anio_mes_dia}
+<br />**Metodo:** GET
+
+![Rest reporte csv](/capturas/descargaArchivo.png)
+
+![Rest archivo csv](/capturas/csv.png)
