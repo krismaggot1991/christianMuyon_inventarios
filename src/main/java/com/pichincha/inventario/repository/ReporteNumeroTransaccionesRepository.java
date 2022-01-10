@@ -19,8 +19,11 @@ import com.pichincha.inventario.entity.dto.ReporteNumeroTransaccionesDTO;
 public interface ReporteNumeroTransaccionesRepository extends CrudRepository<ReporteNumeroTransaccionesDTO, Long> {
 	@Query(value = "SELECT row_number() over(ORDER BY nombre_tienda) AS id, resultado.* FROM "
 			+ "(SELECT count(1) as transaccion, pedido.fecha as fecha, tienda.nombre as nombre_tienda "
-			+ "FROM pedido pedido, pedido_detalle pedidoDetalle, tienda tienda "
-			+ "WHERE pedido.codigo = pedidoDetalle.codigo_pedido AND pedidoDetalle.codigo_tienda = tienda.codigo GROUP BY pedido.fecha, tienda.nombre) resultado", nativeQuery = true)
+			+ "FROM pedido pedido, pedido_detalle pedidoDetalle, tienda_producto tiendaProducto, tienda tienda "
+			+ "WHERE pedido.codigo = pedidoDetalle.codigo_pedido "
+			+ "AND tiendaProducto.codigo_tienda_producto = pedidoDetalle.codigo_tienda_producto "
+			+ "AND tiendaProducto.codigo_tienda = tienda.codigo "
+			+ "GROUP BY pedido.fecha, tienda.nombre) resultado", nativeQuery = true)
 	List<ReporteNumeroTransaccionesDTO> obtenerReporteNumeroTransacciones();
 
 }

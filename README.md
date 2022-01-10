@@ -155,3 +155,20 @@ Servicios REST expuestos (Pedidos)
 ````
 
 ![Rest realizar pedido](/capturas/realizarPedido.png)
+
+Servicios REST expuestos (Reportes)
+==========================
+
+**1) Obtener reporte numero transacciones**
+
+**URL:** http://localhost:8080/inventario/api/reporte/obtenerReporteNumeroTransacciones
+<br />**Metodo:** GET
+
+![Rest reporte transacciones](/capturas/reporteTransacciones.png)
+
+**2) Obtener reporte de monto vendido por tienda**
+
+**URL:** http://localhost:8080/inventario/api/reporte/obtenerReporteMontoVendidoTienda
+<br />**Metodo:** GET
+
+![Rest reporte vendido](/capturas/reporteVendido.png)

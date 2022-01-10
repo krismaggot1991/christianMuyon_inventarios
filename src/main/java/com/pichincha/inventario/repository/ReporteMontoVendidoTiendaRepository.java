@@ -17,11 +17,12 @@ import com.pichincha.inventario.entity.dto.ReporteMontoVendidoTiendaDTO;
  */
 @Repository
 public interface ReporteMontoVendidoTiendaRepository extends CrudRepository<ReporteMontoVendidoTiendaDTO, Long> {
-	@Query(value = "SELECT row_number() over(ORDER BY nombre_tienda) AS id,x.*FROM "
+	@Query(value = "SELECT row_number() over(ORDER BY nombre_tienda) AS id, resultado.* FROM "
 			+ "(SELECT sum(pedidoDetalle.cantidad * producto.precio) monto_vendido, tienda.nombre nombre_tienda, "
-			+ "producto.nombre nombre_producto FROM pedido_detalle pedidoDetalle, tienda tienda, producto producto "
-			+ "WHERE pedidoDetalle.codigo_tienda = tienda.codigo AND pedidoDetalle.id_producto = producto.id "
-			+ "GROUP BY tienda.nombre, producto.nombre) x", nativeQuery = true)
+			+ "producto.nombre nombre_producto FROM pedido_detalle pedidoDetalle, tienda_producto tiendaProducto, tienda tienda, producto producto "
+			+ "WHERE pedidoDetalle.codigo_tienda_producto = tiendaProducto.codigo_tienda_producto "
+			+ "AND tiendaProducto.codigo_tienda = tienda.codigo " + "AND tiendaProducto.id_producto = producto.id "
+			+ "GROUP BY tienda.nombre, producto.nombre) resultado", nativeQuery = true)
 	List<ReporteMontoVendidoTiendaDTO> obtenerReporteMontoVendidoTienda();
 
 }
