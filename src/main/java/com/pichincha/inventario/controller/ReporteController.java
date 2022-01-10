@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pichincha.inventario.entity.dto.ReporteMontoVendidoTiendaDTO;
 import com.pichincha.inventario.entity.dto.ReporteNumeroTransaccionesDTO;
+import com.pichincha.inventario.entity.dto.ReporteTransaccionesClienteDTO;
 import com.pichincha.inventario.service.ReporteServicio;
 
 /**
@@ -36,6 +38,14 @@ public class ReporteController {
 	@GetMapping("/obtenerReporteMontoVendidoTienda")
 	public ResponseEntity<?> obtenerReporteMontoVendidoTienda() {
 		List<ReporteMontoVendidoTiendaDTO> resultado = reporteServicio.obtenerReporteMontoVendidoTienda();
+		return new ResponseEntity<>(resultado, HttpStatus.OK);
+	}
+
+	@GetMapping("/obtenerReporteTransaccionesCliente/{codigoCliente}/{fechaInicio}/{fechaFin}")
+	public ResponseEntity<?> obtenerReporteTransaccionesCliente(@PathVariable("codigoCliente") Long codigoCliente,
+			@PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFin") String fechaFin) {
+		List<ReporteTransaccionesClienteDTO> resultado = reporteServicio
+				.obtenerReporteTransaccionesCliente(codigoCliente, fechaInicio, fechaFin);
 		return new ResponseEntity<>(resultado, HttpStatus.OK);
 	}
 
