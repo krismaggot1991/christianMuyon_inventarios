@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pichincha.inventario.entity.dto.ReporteMontoVendidoTiendaDTO;
 import com.pichincha.inventario.entity.dto.ReporteNumeroTransaccionesDTO;
 import com.pichincha.inventario.entity.dto.ReporteTransaccionesClienteDTO;
+import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.repository.ReporteMontoVendidoTiendaRepository;
 import com.pichincha.inventario.repository.ReporteNumeroTransaccionesRepository;
 import com.pichincha.inventario.repository.ReporteTransaccionesClienteRepository;
@@ -31,6 +32,9 @@ public class ReporteServicio {
 
 	@Autowired
 	private ReporteTransaccionesClienteRepository reporteTransaccionesClienteRepository;
+
+	@Autowired
+	private ClienteServicio clienteServicio;
 
 	/**
 	 * Obtiene reporte de numero de transacciones de pedidos de productos realizados
@@ -55,9 +59,20 @@ public class ReporteServicio {
 		return reporteMontoVendidoTiendaRepository.obtenerReporteMontoVendidoTienda();
 	}
 
+	/**
+	 * Obtiene reporte de transacciones de cliente
+	 * 
+	 * @param codigoCliente Codigo de cliente
+	 * @param fechaInicio   Fecha de inicio
+	 * @param fechaFin      Fecha fin
+	 * 
+	 * @return List<ReporteTransaccionesClienteDTO> Lista de objetos
+	 *         ReporteTransaccionesClienteDTO
+	 */
 	@Transactional(readOnly = true)
 	public List<ReporteTransaccionesClienteDTO> obtenerReporteTransaccionesCliente(Long codigoCliente,
-			String fechaInicio, String fechaFin) {
+			String fechaInicio, String fechaFin) throws InventarioException {
+		clienteServicio.obtenerPorCodigo(codigoCliente);
 		return reporteTransaccionesClienteRepository.obtenerReporteTransaccionesCliente(codigoCliente, fechaInicio,
 				fechaFin);
 	}

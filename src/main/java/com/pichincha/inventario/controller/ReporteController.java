@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pichincha.inventario.entity.dto.ReporteMontoVendidoTiendaDTO;
 import com.pichincha.inventario.entity.dto.ReporteNumeroTransaccionesDTO;
 import com.pichincha.inventario.entity.dto.ReporteTransaccionesClienteDTO;
+import com.pichincha.inventario.exception.InventarioException;
 import com.pichincha.inventario.service.ReporteServicio;
 
 /**
@@ -44,9 +45,14 @@ public class ReporteController {
 	@GetMapping("/obtenerReporteTransaccionesCliente/{codigoCliente}/{fechaInicio}/{fechaFin}")
 	public ResponseEntity<?> obtenerReporteTransaccionesCliente(@PathVariable("codigoCliente") Long codigoCliente,
 			@PathVariable("fechaInicio") String fechaInicio, @PathVariable("fechaFin") String fechaFin) {
-		List<ReporteTransaccionesClienteDTO> resultado = reporteServicio
-				.obtenerReporteTransaccionesCliente(codigoCliente, fechaInicio, fechaFin);
-		return new ResponseEntity<>(resultado, HttpStatus.OK);
+		try {
+			List<ReporteTransaccionesClienteDTO> resultado = reporteServicio
+					.obtenerReporteTransaccionesCliente(codigoCliente, fechaInicio, fechaFin);
+			return new ResponseEntity<>(resultado, HttpStatus.OK);
+		} catch (InventarioException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
 
 }
