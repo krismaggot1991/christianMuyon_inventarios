@@ -31,6 +31,16 @@ Al arrancar la aplicacion se carga automaticamente datos para la tabla **TIENDA*
 
 ![Consola tienda](/capturas/tiendaDB.png)
 
+<br />
+**Querys principales:** 
+<br />
+select * from tienda_producto;<br />
+select * from producto;<br />
+select * from tienda;<br />
+select * from cliente;<br />
+select * from pedido;<br />
+select * from pedido_detalle;
+
 Servicios REST expuestos (Productos)
 ==========================
 
@@ -175,7 +185,7 @@ Servicios REST expuestos (Reportes)
 
 ![Rest reporte vendido](/capturas/reporteVendido.png)
 
-**3) Generar reporte CSV de transacciones de cliente**
+**3) Generar reporte CSV de transacciones de cliente (Para descarga de archivo realizar invocacion del servicio en un navegador web)**
 
 **URL:** http://localhost:8080/inventario/api/reporte/obtenerReporteTransaccionesCliente/{codigo_cliente}/{fecha_inicio_anio_mes_dia}/{fecha_fin_anio_mes_dia}
 <br />**Metodo:** GET
@@ -183,3 +193,9 @@ Servicios REST expuestos (Reportes)
 ![Rest reporte csv](/capturas/descargaArchivo.png)
 
 ![Rest archivo csv](/capturas/csv.png)
+
+<br />
+<br />*Coleccion de servicios REST para postman se encuentran en la ruta: Christian Muyon Rivera. \recursos\Inventario_API.postman_collection.json
+
+<br />
+<br />**Aplicacion desarrollada por:** Christian Muyon Rivera. 
