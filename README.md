@@ -194,5 +194,4 @@ Servicios REST expuestos (Reportes)
 
 ![Rest archivo csv](/capturas/csv.png)
 
-<br />
 <br />**Aplicacion desarrollada por:** Christian Muyon Rivera. 
