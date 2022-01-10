@@ -41,6 +41,18 @@ public class PedidoServicio {
 	@Autowired
 	private PedidoDetalleRepository pedidoDetalleRepository;
 
+	@Autowired
+	private SolitudStockServicio solitudStockServicio;
+
+	/**
+	 * Guarda pedido y su detall
+	 * 
+	 * @param pedidoTo Objeto PedidoTo
+	 * 
+	 * @throws InventarioException
+	 * 
+	 * @return void
+	 */
 	@Transactional
 	public void realizarPedido(PedidoTo pedidoTo) throws InventarioException {
 		Pedido pedido = new Pedido();
@@ -52,9 +64,36 @@ public class PedidoServicio {
 		}
 	}
 
+	/**
+	 * Guarda detalle del pedido y actualiza el stock del producto segun logica de
+	 * negocio.
+	 * 
+	 * @param pedido          Objeto Pedido
+	 * @param pedidoDetalleTo Objeto PedidoDetalleTo
+	 * 
+	 * @throws InventarioException
+	 * 
+	 * @return void
+	 */
 	private void guardarDetalle(Pedido pedido, PedidoDetalleTo pedidoDetalleTo) throws InventarioException {
 		Tienda tienda = tiendaServicio.obtenerTiendaPorCodigo(pedidoDetalleTo.getCodigoTienda());
 		Producto producto = productoServicio.obtenerProductoPorId(pedidoDetalleTo.getIdProducto());
+		int stock = producto.getStock();
+		stock = stock - pedidoDetalleTo.getCantidad();
+
+		if (stock < 0) {
+			stock = stock * (-1);
+			if (stock > 10) {
+				throw new InventarioException("Unidades no disponibles (>10)");
+			} else if (stock > 5 && stock < 10) {
+				solitudStockServicio.solicitarStock10(producto, pedidoDetalleTo.getCantidad());
+			} else if (stock < 5) {
+				solitudStockServicio.solicitarStock05(producto, pedidoDetalleTo.getCantidad());
+			}
+		} else {
+			producto.setStock(stock);
+			producto = productoServicio.guardarProducto(producto);
+		}
 
 		PedidoDetalle pedidoDetalle = new PedidoDetalle(pedido, tienda, producto, pedidoDetalleTo.getCantidad());
 		pedidoDetalleRepository.save(pedidoDetalle);
