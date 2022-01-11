@@ -74,7 +74,7 @@ class ReporteServicioTest {
 	}
 
 	@Test
-	final void deberiaObtenerReporteTransaccionesCliente() {
+	final void deberiaObtenerReporteTransaccionesCliente() throws InventarioException {
 		when(clienteServicio.obtenerPorCodigo(anyLong())).thenReturn(obtenerCliente());
 		when(reporteTransaccionesClienteRepository.obtenerReporteTransaccionesCliente(anyLong(), anyString(),
 				anyString())).thenReturn(obtenerListaReporteTransaccionesClienteDTO());

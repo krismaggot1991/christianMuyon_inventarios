@@ -40,7 +40,7 @@ class TiendaProductoServicioTest {
 	}
 
 	@Test
-	final void deberiaObtenerPorTiendaYProducto() {
+	final void deberiaObtenerPorTiendaYProducto() throws InventarioException {
 		when(tiendaProductoRepository.findByTiendaAndProducto(any(), any()))
 				.thenReturn(obtenerListaLlenaTiendaProducto());
 		TiendaProducto tiendaProducto = tiendaProductoServicio.obtenerPorTiendaYProducto(any(), any());
@@ -48,7 +48,7 @@ class TiendaProductoServicioTest {
 	}
 
 	@org.junit.Test(expected = InventarioException.class)
-	final void deberiaLanzarExepcionAlObtenerPorTiendaYProductoNoExistentes() {
+	final void deberiaLanzarExepcionAlObtenerPorTiendaYProductoNoExistentes() throws InventarioException {
 		when(tiendaProductoRepository.findByTiendaAndProducto(any(), any()))
 				.thenReturn(obtenerListaVaciaTiendaProducto());
 		tiendaProductoServicio.obtenerPorTiendaYProducto(any(), any());

@@ -193,4 +193,13 @@ Servicios REST expuestos (Reportes)
 
 ![Rest archivo csv](/capturas/csv.png)
 
+Compilacion
+==========================
+
+Ejecutar comando **mvn clean install** en la raiz del proyecto 
+
+![Rest compilacion](/capturas/compilacion.png)
+
+<br />**Tests implementados:** 21
+
 <br />**Aplicacion desarrollada por:** Christian Muyon Rivera. 
