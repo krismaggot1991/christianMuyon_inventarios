@@ -31,8 +31,7 @@ Al arrancar la aplicacion se carga automaticamente datos para la tabla **TIENDA*
 
 ![Consola tienda](/capturas/tiendaDB.png)
 
-<br />
-**Querys principales:** 
+<br />**Querys principales:** 
 <br />
 select * from tienda_producto;<br />
 select * from producto;<br />
